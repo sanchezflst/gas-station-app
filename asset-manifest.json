@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/gas-station-app/static/css/main.e6c13ad2.css",
+    "main.js": "/gas-station-app/static/js/main.99b7fdc4.js",
+    "static/js/453.7f666985.chunk.js": "/gas-station-app/static/js/453.7f666985.chunk.js",
+    "index.html": "/gas-station-app/index.html",
+    "main.e6c13ad2.css.map": "/gas-station-app/static/css/main.e6c13ad2.css.map",
+    "main.99b7fdc4.js.map": "/gas-station-app/static/js/main.99b7fdc4.js.map",
+    "453.7f666985.chunk.js.map": "/gas-station-app/static/js/453.7f666985.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.99b7fdc4.js"
+  ]
+}
