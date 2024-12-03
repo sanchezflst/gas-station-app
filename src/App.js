@@ -30,7 +30,7 @@ function App() {
   const [sortedStations, setSortedStations] = useState([]); // Estaciones ordenadas por proximidad
   const [filterName, setFilterName] = useState(""); // Filtro por nombre de estación
 
-  useEffect(() => {
+  /*useEffect(() => {
     // Usar el proxy de CORS Anywhere para evitar restricciones de CORS
     //const proxyUrl = "https://cors-anywhere.herokuapp.com/";
     const proxyUrl = "https://api.allorigins.win/get?url=";
@@ -49,7 +49,29 @@ function App() {
         setError(error);
         setLoading(false);
       });
+  }, []);*/
+
+   useEffect(() => {
+    // Fetch gas station data from the provided URL (can be a proxy if CORS is an issue)
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.allorigins.win/get?url=" +
+            encodeURIComponent(
+              "https://opendata.alcoi.org/data/dataset/eaa35b18-783f-425f-be0d-e469188b487e/resource/fb583582-0a7b-4ae1-a515-dd01d094cf72/download/gasolineras.geojson"
+            )
+        );
+        const data = JSON.parse(response.data.contents);
+        setGasStations(data.features);
+      } catch (err) {
+        setError("Error loading gas stations.");
+      }
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
+
 
   const handleLocationSubmit = (e) => {
     e.preventDefault();
