@@ -32,7 +32,8 @@ function App() {
 
   useEffect(() => {
     // Usar el proxy de CORS Anywhere para evitar restricciones de CORS
-    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    //const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    const proxyUrl = "https://api.allorigins.win/get?url=";
     const targetUrl = "https://opendata.alcoi.org/data/dataset/eaa35b18-783f-425f-be0d-e469188b487e/resource/fb583582-0a7b-4ae1-a515-dd01d094cf72/download/gasolineras.geojson";
 
     // Hacer la solicitud GET con el proxy CORS
