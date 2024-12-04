@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import gasStationsData from './gasStationsData.json'; // Updated JSON file name
 
 // Haversine Formula to calculate the distance between two coordinates
 const haversineDistance = (lat1, lon1, lat2, lon2) => {
@@ -42,7 +43,8 @@ function App() {
         const data = JSON.parse(response.data.contents);
         setGasStations(data.features);
       } catch (err) {
-        setError("Error loading gas stations.");
+        setError("Error loading gas stations. Falling back to local data.");
+        setGasStations(gasStationsData.features); // Use the imported local JSON as fallback
       }
       setLoading(false);
     };
@@ -101,6 +103,18 @@ function App() {
           <strong>Coordenadas:</strong>{" "}
           {station.geometry.coordinates[0][0]}, {station.geometry.coordinates[0][1]}
         </p>
+
+        {/* Display prices if available */}
+        {station.properties.precio && (
+          <>
+            <h4>Precios:</h4>
+            <ul>
+              <li><strong>Gasolina Normal:</strong> {station.properties.precio.gasolina_normal} EUR</li>
+              <li><strong>Gasolina Super:</strong> {station.properties.precio.gasolina_super} EUR</li>
+              <li><strong>Gasóleo:</strong> {station.properties.precio.gasoleo} EUR</li>
+            </ul>
+          </>
+        )}
       </div>
     );
   };
@@ -114,10 +128,10 @@ function App() {
     <div style={styles.app}>
       <h1>Gasolineras en Alcoi</h1>
       <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStQ0SQ1Bg7mO4toLntO7O812ApmscLk5A4UQ&s"
-          alt="Estación de servicio"
-          style={{ width: '100px', height: '60px' }}
-        />
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStQ0SQ1Bg7mO4toLntO7O812ApmscLk5A4UQ&s"
+        alt="Estación de servicio"
+        style={{ width: '100px', height: '60px' }}
+      />
 
       {loading && <p style={styles.loading}>Cargando...</p>}
       {error && <p style={styles.error}>{error}</p>}
