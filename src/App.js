@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import gasStationsData from './gasStationsData.json'; // Updated JSON file name
+//import gasStationsData from './gasStationsData.json'; // Updated JSON file name
 
 // Haversine Formula to calculate the distance between two coordinates
 const haversineDistance = (lat1, lon1, lat2, lon2) => {
