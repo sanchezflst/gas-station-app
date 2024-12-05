@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import gasStationsData from './gasStationsData.json'; // Local fallback JSON data
+import gasStationsData from './gasStationsData.json'; // Updated JSON file name
 
 // Haversine Formula to calculate the distance between two coordinates
 const haversineDistance = (lat1, lon1, lat2, lon2) => {
@@ -31,23 +31,14 @@ function App() {
   const [error, setError] = useState(null); // Error state
 
   useEffect(() => {
-    // Fetch gas station data from the provided URL (can be a proxy if CORS is an issue)
+    // Fetch gas station data from the provided URL (using a different CORS proxy)
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://api.allorigins.win/get?url=" +
-            encodeURIComponent(
-              "https://opendata.alcoi.org/data/dataset/eaa35b18-783f-425f-be0d-e469188b487e/resource/fb583582-0a7b-4ae1-a515-dd01d094cf72/download/gasolineras.geojson"
-            )
+          "https://corsproxy.io/?https://opendata.alcoi.org/data/dataset/eaa35b18-783f-425f-be0d-e469188b487e/resource/fb583582-0a7b-4ae1-a515-dd01d094cf72/download/gasolineras.geojson"
         );
-        const data = JSON.parse(response.data.contents);
-
-        // Check if the fetched data has the expected structure
-        if (data.features && Array.isArray(data.features)) {
-          setGasStations(data.features);
-        } else {
-          throw new Error("Data structure is invalid.");
-        }
+        const data = response.data; // Direct access to GeoJSON data
+        setGasStations(data.features); // Assuming the API returns data with a 'features' property
       } catch (err) {
         setError("Error loading gas stations. Falling back to local data.");
         setGasStations(gasStationsData.features); // Use the imported local JSON as fallback
@@ -251,10 +242,10 @@ const styles = {
   },
   stationCard: {
     backgroundColor: "#ffffff",
-    padding: "15px",
+    padding: "20px",
     marginBottom: "10px",
     borderRadius: "8px",
-    boxShadow: "0 0 8px rgba(0, 0, 0, 0.1)",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
   },
 };
 
