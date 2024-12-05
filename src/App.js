@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import gasStationsData from './gasStationsData.json'; // Updated JSON file name
+import gasStationsData from './gasStationsData.json'; // Local fallback JSON data
 
 // Haversine Formula to calculate the distance between two coordinates
 const haversineDistance = (lat1, lon1, lat2, lon2) => {
@@ -41,7 +41,13 @@ function App() {
             )
         );
         const data = JSON.parse(response.data.contents);
-        setGasStations(data.features);
+
+        // Check if the fetched data has the expected structure
+        if (data.features && Array.isArray(data.features)) {
+          setGasStations(data.features);
+        } else {
+          throw new Error("Data structure is invalid.");
+        }
       } catch (err) {
         setError("Error loading gas stations. Falling back to local data.");
         setGasStations(gasStationsData.features); // Use the imported local JSON as fallback
@@ -245,10 +251,10 @@ const styles = {
   },
   stationCard: {
     backgroundColor: "#ffffff",
-    padding: "20px",
+    padding: "15px",
     marginBottom: "10px",
     borderRadius: "8px",
-    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+    boxShadow: "0 0 8px rgba(0, 0, 0, 0.1)",
   },
 };
 
