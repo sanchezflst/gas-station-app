@@ -31,14 +31,17 @@ function App() {
   const [error, setError] = useState(null); // Error state
 
   useEffect(() => {
-    // Fetch gas station data from the provided URL (using a different CORS proxy)
+    // Fetch gas station data from the provided URL (can be a proxy if CORS is an issue)
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://corsproxy.io/?https://opendata.alcoi.org/data/dataset/eaa35b18-783f-425f-be0d-e469188b487e/resource/fb583582-0a7b-4ae1-a515-dd01d094cf72/download/gasolineras.geojson"
+          "https://api.allorigins.win/get?url=" +
+            encodeURIComponent(
+              "https://opendata.alcoi.org/data/dataset/eaa35b18-783f-425f-be0d-e469188b487e/resource/fb583582-0a7b-4ae1-a515-dd01d094cf72/download/gasolineras.geojson"
+            )
         );
-        const data = response.data; // Direct access to GeoJSON data
-        setGasStations(data.features); // Assuming the API returns data with a 'features' property
+        const data = JSON.parse(response.data.contents);
+        setGasStations(data.features);
       } catch (err) {
         setError("Error loading gas stations. Falling back to local data.");
         setGasStations(gasStationsData.features); // Use the imported local JSON as fallback
