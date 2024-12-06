@@ -1,25 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import gasStationsData from './gasStationsData.json'; // Updated JSON file name
 
-// Haversine Formula to calculate the distance between two coordinates
-const haversineDistance = (lat1, lon1, lat2, lon2) => {
-  const R = 6371; // Earth's radius in km
-  const toRad = (x) => (x * Math.PI) / 180; // Convert degrees to radians
-
-  const deltaLat = toRad(lat2 - lat1);
-  const deltaLon = toRad(lon2 - lon1);
-
-  const a =
-    Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-    Math.cos(toRad(lat1)) *
-      Math.cos(toRad(lat2)) *
-      Math.sin(deltaLon / 2) *
-      Math.sin(deltaLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return R * c; // Distance in km
-};
+// CORS Proxy configuration
+const proxyUrl = 'https://cors-proxy-rapidapi.p.rapidapi.com/'; // RapidAPI CORS Proxy URL
+const targetUrl = 'https://opendata.alcoi.org/data/dataset/eaa35b18-783f-425f-be0d-e469188b487e/resource/fb583582-0a7b-4ae1-a515-dd01d094cf72/download/gasolineras.geojson';
 
 function App() {
   const [gasStations, setGasStations] = useState([]); // List of gas stations
@@ -30,27 +14,45 @@ function App() {
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
 
-  useEffect(() => {
-    // Fetch gas station data from the provided URL (can be a proxy if CORS is an issue)
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.allorigins.win/get?url=" +
-            encodeURIComponent(
-              "https://opendata.alcoi.org/data/dataset/eaa35b18-783f-425f-be0d-e469188b487e/resource/fb583582-0a7b-4ae1-a515-dd01d094cf72/download/gasolineras.geojson"
-            )
-        );
-        const data = JSON.parse(response.data.contents);
-        setGasStations(data.features);
-      } catch (err) {
-        setError("Error loading gas stations. Falling back to local data.");
-        setGasStations(gasStationsData.features); // Use the imported local JSON as fallback
-      }
+  // Fetch gas station data from API (via CORS proxy)
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(proxyUrl + targetUrl, {
+        headers: {
+          'X-RapidAPI-Host': 'cors-proxy-rapidapi.p.rapidapi.com', // RapidAPI host header
+          'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY', // Replace with your RapidAPI key
+        },
+      });
+      setGasStations(response.data.features);
+      setLoading(false); // Set loading to false after data is fetched
+    } catch (err) {
+      setError("Error loading gas stations.");
       setLoading(false);
-    };
+    }
+  };
 
-    fetchData();
+  useEffect(() => {
+    fetchData(); // Call the fetchData function to get the gas stations
   }, []);
+
+  // Haversine Formula to calculate the distance between two coordinates
+  const haversineDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Earth's radius in km
+    const toRad = (x) => (x * Math.PI) / 180; // Convert degrees to radians
+
+    const deltaLat = toRad(lat2 - lat1);
+    const deltaLon = toRad(lon2 - lon1);
+
+    const a =
+      Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+      Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(deltaLon / 2) *
+        Math.sin(deltaLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c; // Distance in km
+  };
 
   const handleLocationSubmit = (e) => {
     e.preventDefault();
