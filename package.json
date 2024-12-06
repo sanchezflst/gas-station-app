@@ -1,6 +1,6 @@
 {
-  "homepage": "https://sanchezflst.github.io/gas-station-app",
-  "name": "gas-station-app",
+  "homepage":"https://sanchezflst.github.io/gas-app",
+  "name": "final",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,18 +8,25 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.8",
+    "buffer": "^6.0.3",
+    "proj4": "^2.15.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "stream-browserify": "^3.0.0",
+    "timers-browserify": "^2.0.12",
+    "web-vitals": "^2.1.4",
+    "xml2js": "^0.6.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+  "predeploy": "npm run build",
+  "deploy": "npm run deploy",
+  "start": "react-scripts start",
+  "build": "react-scripts build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject"
+  
+}
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +47,6 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^6.2.0"
+    "react-app-rewired": "^2.2.1"
   }
 }
