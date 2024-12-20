@@ -142,7 +142,7 @@ function App() {
         <form onSubmit={handleLocationSubmit}>
           <div style={styles.formGroup}>
             <label>
-              Latitud:
+              Latitud
               <input
                 type="number"
                 value={userLat}
@@ -154,7 +154,7 @@ function App() {
           </div>
           <div style={styles.formGroup}>
             <label>
-              Longitud:
+              Longitud 
               <input
                 type="number"
                 value={userLon}
