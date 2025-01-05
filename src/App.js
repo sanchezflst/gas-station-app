@@ -32,16 +32,15 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Use the AllOrigins proxy to bypass CORS restrictions
-        const response = await axios.get(
-          "https://api.allorigins.win/raw?url=" +
-            encodeURIComponent(
-              "https://opendata.alcoi.org/data/dataset/eaa35b18-783f-425f-be0d-e469188b487e/resource/fb583582-0a7b-4ae1-a515-dd01d094cf72/download/gasolineras.geojson"
-            )
-        );
+        // CORS Anywhere Proxy URL: You can use the public proxy provided by CORS Anywhere.
+        const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+        const targetUrl =
+          "https://opendata.alcoi.org/data/dataset/eaa35b18-783f-425f-be0d-e469188b487e/resource/fb583582-0a7b-4ae1-a515-dd01d094cf72/download/gasolineras.geojson";
+
+        const response = await axios.get(proxyUrl + targetUrl);
 
         // Parse the response to JSON
-        const data = JSON.parse(response.data);
+        const data = response.data;
         setGasStations(data.features);
       } catch (err) {
         if (err.response && err.response.status === 403) {
