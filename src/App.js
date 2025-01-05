@@ -127,7 +127,7 @@ function App() {
       <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStQ0SQ1Bg7mO4toLntO7O812ApmscLk5A4UQ&s"
           alt="Estación de servicio"
-          style={{ width: '100px', height: '60px' }}
+          style={{ width: '100px', height: '60px', margin: '20px' }}
         />
 
       {loading && <p style={styles.loading}>Cargando...</p>}
@@ -139,7 +139,7 @@ function App() {
         <form onSubmit={handleLocationSubmit}>
           <div style={styles.formGroup}>
             <label>
-              Latitud
+              Latitud:
               <input
                 type="number"
                 value={userLat}
@@ -151,7 +151,7 @@ function App() {
           </div>
           <div style={styles.formGroup}>
             <label>
-              Longitud 
+              Longitud: 
               <input
                 type="number"
                 value={userLon}
